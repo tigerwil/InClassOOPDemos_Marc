@@ -64,9 +64,9 @@
                         $myfavs = $data['items'];
                         //var_dump($myfavs);'
                         if (!empty($myfavs)) {
-                            echo "<a href='' class='btn btn-danger mb-3 delfav' data-id=$id><i class='fa fa-heart' aria-hidden='true'></i> Delete Favorite</a>";
+                            echo "<a href='' class='btn btn-danger mb-3 delfav' data-id=$id data-userid=$userid><i class='fa fa-heart' aria-hidden='true'></i> Delete Favorite</a>";
                         } else {
-                            echo "<a href='' class='btn btn-primary mb-3 addfav' data-id=$id><i class='fa fa-heart' aria-hidden='true'></i> Add Favorite</a>";
+                            echo "<a href='' class='btn btn-primary mb-3 addfav' data-id=$id data-userid=$userid><i class='fa fa-heart' aria-hidden='true'></i> Add Favorite</a>";
                         }
                     }
                 }//end of if else empty
@@ -89,4 +89,5 @@
                   </div>';
     }//end of if not empty
     ?>
+     <div id="success"></div>
 </div>

@@ -334,14 +334,16 @@ public function addFavorite($userid,$pageid){
     //check for success|failure
     if($count>0){
         //success
-        $response['message'] = 'FAVORITE_ADD_SUCCESS';
+        //$response['message'] = 'FAVORITE_ADD_SUCCESS';
+        return true;
     }else{
         //failure
-        $response['message'] = 'FAVORITE_ADD_FAIL';
+        //$response['message'] = 'FAVORITE_ADD_FAIL';
+        return false;
     }
 
     //return final response
-    return $response;        
+    //return $response;        
 }//End addFavorite
 
 public function delFavorite($userid,$pageid){
@@ -359,14 +361,16 @@ public function delFavorite($userid,$pageid){
    //check for success|failure
    if($count>0){
        //success
-       $response['message'] = 'FAVORITE_DELETE_SUCCESS';
+       //$response['message'] = 'FAVORITE_DELETE_SUCCESS';
+       return true;
    }else{
        //failure
-       $response['message'] = 'FAVORITE_DELETE_FAIL';
+       //$response['message'] = 'FAVORITE_DELETE_FAIL';
+       return false;
    }
 
    //return final response
-   return $response;        
+   //return $response;        
 }//End delFavorite
 
 

@@ -127,6 +127,7 @@ class DbHandler {
 
             //Fetch the data as an associative array
             $page = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
 
             //Return array of data items
             $data = array(
@@ -376,13 +377,16 @@ public function delFavorite($userid,$pageid){
 
 public function getFavorite($userid, $pageid){
     try{
-        $stmt=$this->conn->prepare("SELECT pages.id, title, category
-                                    FROM categories JOIN pages
-                                            ON categories.id = pages.id
-                                    JOIN user_favorites
-                                            ON user_favorites.page_id = pages.id
-                                    WHERE user_id = :userid AND page_id = :pageid
-                                    ORDER BY title;");
+//        $stmt=$this->conn->prepare("SELECT pages.id, title, category
+//                                    FROM categories JOIN pages
+//                                            ON categories.id = pages.id
+//                                    JOIN user_favorites
+//                                            ON user_favorites.page_id = pages.id
+//                                    WHERE user_id = :userid AND page_id = :pageid
+//                                    ORDER BY title;");
+        $stmt=$this->conn->prepare("SELECT user_id, page_id
+                                    FROM user_favorites
+                                    WHERE user_id = :userid AND page_id = :pageid");        
         $stmt->bindValue(':userid',$userid, PDO::PARAM_INT);
         $stmt->bindValue(':pageid',$pageid, PDO::PARAM_INT);
         $stmt->execute();
@@ -412,9 +416,39 @@ private function isUserExists($email) {
     //return true or false
     return $num_rows > 0;
 }
-
 //end of isUserExists 
-}
 
+//========================= ADMIN ONLY ==============================//
+    public function getUsers() {
+        try {
+            //Prepare our sql query with $id param coming from 
+            //outside environment
+            $sql="SELECT id,type,email,first_name,last_name,
+                                                IF(date_expires<=NOW(),true,false) AS notexpired,
+                                                CASE WHEN active IS NOT NULL
+                                                 THEN 'Not Active'
+                                                 ELSE 'Active'
+                                                End AS active
+                                         FROM users";
+            
+            $stmt = $this->conn->query($sql);
+            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);    
+
+            //Return array of data items
+            $data = array(
+                'error' => false,
+                'items' => $users
+            );
+        } catch (PDOException $ex) {
+            $data = array('error' => true,
+                'message' => $ex->getMessage()
+            );
+        }//end of try catch
+        //Return final data array
+        return $data;
+    }
+
+//========================= END ADMIN  ==============================//
+}
 //End of Class
 

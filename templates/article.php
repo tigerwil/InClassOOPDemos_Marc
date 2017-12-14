@@ -20,7 +20,7 @@
             $id = $_GET['id'];
 
             $data = $dbh->getArticle($id);
-            //var_dump($data);
+            //echo($data['items'][0]['title']);
             if ($data['error'] == false) {
                 //good to go - get the items
                 $article = $data['items'];
